@@ -1,0 +1,18 @@
+# Every path in this repository has a named owner. The merge is the authorization.
+#
+# Paths are listed most-general first, most-specific last — GitHub applies the LAST
+# matching rule, so the ordering here is load-bearing rather than cosmetic.
+
+*                                             @tiffanidickerson437-lang
+
+# The observations are the substance. A change here changes what the checkers compare,
+# so an unreviewed edit silently rewrites what this repository claims was observed.
+/05-stakeholder-management/public-claims-consistency/   @tiffanidickerson437-lang
+/04-evidence-and-audit/data/                  @tiffanidickerson437-lang
+
+# The config is the single input. Every downstream artifact resolves from it.
+/generated/companies/jasper/                  @tiffanidickerson437-lang
+
+# The research position. Changing a sourced claim without changing its source is the
+# failure mode this repository exists to avoid.
+/00-governance/                               @tiffanidickerson437-lang

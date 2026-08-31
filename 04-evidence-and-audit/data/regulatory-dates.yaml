@@ -1,0 +1,90 @@
+# regulatory-dates.yaml — every date that governs the plan, as data.
+#
+# The prose version lives in 00-governance/regulatory-clock.md. This file is the same
+# clock in machine-checkable form: audit_clock.py validates it, computes days-since /
+# days-until against any --as-of date, and renders the fixed-date calendar the CI
+# staleness check guards. A plan whose dates live only in prose drifts; one whose dates
+# are data recomputes.
+#
+# `kind` values:
+#   applied   — already in force; the clock counts up from it
+#   deadline  — lands in the future (as of the check date); the clock counts down
+#   estimate  — derived, not published (flagged estimated: true, with the derivation);
+#               NEVER cited as a hard date
+#
+# All sources checked 2026-08-31.
+
+schema_version: 1
+
+dates:
+  - id: eu-ai-act-art50-disclosure
+    date: "2026-08-02"
+    kind: applied
+    label: "EU AI Act Art. 50(1)/(3)/(4) — AI-interaction and synthetic-content disclosure duties apply"
+    source: https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-50
+    note: >
+      The May 2026 digital-omnibus package moved high-risk obligations to 2027/2028.
+      It did not move Article 50. Penalties under Art. 99 run to EUR 15M or 3% of
+      worldwide turnover.
+
+  - id: eu-ai-act-art50-marking
+    date: "2026-12-02"
+    kind: deadline
+    label: "EU AI Act Art. 50(2) — machine-readable marking of synthetic content applies (systems on the EU market before 2026-08-02)"
+    source: https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-50
+    note: >
+      Cannot be fixed retroactively: marking has to be in the generation pipeline
+      before output leaves it. The most time-boxed deliverable available to this role.
+
+  - id: eu-omnibus-package
+    date: "2026-05-07"
+    kind: applied
+    label: "EU digital-omnibus grandfathering — high-risk AI Act deadlines moved to Dec 2027 / Aug 2028; Art. 50 unmoved"
+    source: https://ai-act-service-desk.ec.europa.eu/en/ai-act/article-50
+    note: "Context row. The date most candidates will misread — cite Art. 50 separately."
+
+  - id: iso27001-certified
+    date: "2026-08-14"
+    kind: applied
+    label: "Jasper ISO/IEC 27001:2022 certification announced on the trust center"
+    source: https://security.jasper.ai/
+
+  - id: trust-center-migration
+    date: "2026-08-14"
+    kind: applied
+    label: "Trust center migrated SafeBase -> Vanta; all prior customer access must be re-requested"
+    source: https://security.jasper.ai/
+
+  - id: iso27001-surveillance
+    date: "2027-08-14"
+    kind: estimate
+    estimated: true
+    label: "First ISO 27001 surveillance audit window (ESTIMATE: certification date + 12 months)"
+    source: https://security.jasper.ai/
+    note: >
+      Derived from the standard annual surveillance cycle, not from any Jasper
+      statement. The real date is set by the certification body and is not public.
+      Planned against, never cited.
+
+  - id: texas-traiga
+    date: "2026-01-01"
+    kind: applied
+    label: "Texas TRAIGA in force (Jasper's founding state)"
+    source: https://capitol.texas.gov/BillLookup/History.aspx?LegSess=89R&Bill=HB149
+
+  - id: colorado-ai-act
+    date: "2027-01-01"
+    kind: deadline
+    label: "Colorado AI Act effective (as amended and delayed by SB 189, signed 2026-05-14)"
+    source: https://www.hunton.com/privacy-and-cybersecurity-law-blog/colorado-ai-act-amended-and-effective-date-delayed
+    note: "Twice delayed and narrowed toward ADMT-style disclosure duties. Watch, not panic."
+
+  - id: cppa-admt-obligations
+    date: "2027-01-01"
+    kind: deadline
+    label: "CPPA automated decision-making technology obligations begin phasing in"
+    source: https://cppa.ca.gov/regulations/
+    note: >
+      Relevant because the candidate-facing CCPA notice is v1.0 (March 2024), which
+      predates the ADMT rulemaking. Verify current regs text with Legal before citing
+      specifics — the phasing moved during 2025-26.

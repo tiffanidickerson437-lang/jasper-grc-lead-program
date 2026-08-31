@@ -1,0 +1,35 @@
+# subprocessors.yaml — Jasper's LLM subprocessor disclosures, per surface, as observed.
+#
+# Two public surfaces disclose subprocessors. They are both Jasper's own, and on the
+# LLM tier they did not agree when checked. This file records both observations; the
+# checker (subprocessor_consistency.py) reports the difference. Neither this file nor
+# the checker asserts which list is correct — that is the claim owner's call, and the
+# public Information Security Requirements exhibit (§3.3, annual reassessment of every
+# subprocessor including audit-report review) is what makes the answer matter.
+#
+# Scope note: the legal page lists many more processors (Datadog, Splunk, Transcend,
+# Stripe, Google Workspace, and others). This file tracks the LLM tier only, because
+# that is the tier the no-training commitment rides on and the tier where the two
+# surfaces diverge. Widening scope is an edit to this file, not to the checker.
+
+schema_version: 1
+tier: llm-providers
+
+surfaces:
+  - id: legal-page
+    url: https://www.jasper.ai/legal/sub-processors
+    checked: "2026-08-31"
+    note: >
+      Rows observed with purpose "LLM (option agentic features)", location US:
+      Anthropic, Cohere, Google Gemini, OpenAI.
+    providers: [anthropic, cohere, google-gemini, openai]
+
+  - id: trust-center-panel
+    url: https://security.jasper.ai/
+    checked: "2026-08-31"
+    note: >
+      Subprocessor panel (client-rendered, observed in a browser session): Google Cloud
+      Platform "Cloud provider"; OpenAI, Google Gemini, Anthropic each "LLM Provider".
+      Cohere not present in the panel. The panel offers a "View all" control; this
+      observation records the surfaced panel, which is what a customer sees first.
+    providers: [openai, google-gemini, anthropic]

@@ -1,0 +1,63 @@
+# claims-inventory.yaml — what each public Jasper surface asserts about certifications
+# and compliance, as observed on the date recorded per surface.
+#
+# This file is an OBSERVATION, not a posture statement. Each entry records what a page
+# said when it was checked, with the quote that supports it. When a page changes, the
+# right move is to re-observe and update the entry (with a new `checked` date), never to
+# edit a quote to say what the page "should" say. The checker compares these observations
+# against each other; it decides nothing about what Jasper actually holds.
+#
+# Sources were fetched directly on 2026-08-31:
+#   /trust and /security via HTTP; security.jasper.ai (a client-rendered Vanta portal)
+#   via a browser session. Quotes are short excerpts for identification, kept to the
+#   minimum needed to make the observation reproducible.
+
+schema_version: 1
+
+# Alias map: different surfaces spell the same claim differently. Every alias resolves
+# to exactly one canonical id before comparison, so "PCI" and "PCI DSS" cannot read as
+# two different claims — or as agreement where there is none.
+aliases:
+  pci-dss: pci
+  iso-27001: iso27001
+  "iso27001:2022": iso27001
+
+# Canonical claim registry. `kind` is what the thing IS, which is not always what a
+# page presents it as — that mismatch is one of the defect classes checked.
+#   certification      — issued by an auditor/CB against a standard
+#   law                — a statute one complies with; nobody is "certified GDPR"
+#   contract-instrument— a document one signs; listing it beside certifications is a
+#                        category error, not a credential
+claims:
+  soc2:     { kind: certification, label: "SOC 2" }
+  iso27001: { kind: certification, label: "ISO/IEC 27001:2022" }
+  pci:      { kind: certification, label: "PCI DSS" }
+  gdpr:     { kind: law,           label: "GDPR" }
+  ccpa:     { kind: law,           label: "CCPA" }
+  dpa:      { kind: contract-instrument, label: "DPA" }
+
+surfaces:
+  - id: trust-page
+    url: https://www.jasper.ai/trust
+    audience: marketing
+    checked: "2026-08-31"
+    quote: "Jasper is compliant with SOC 2, PCI, DPA, CCPA, and GDPR"
+    claims: [soc2, pci, dpa, ccpa, gdpr]
+
+  - id: security-page
+    url: https://www.jasper.ai/security
+    audience: marketing
+    checked: "2026-08-31"
+    quote: >
+      "SOC 2 Compliant" and "GDPR Compliant" badges in the hero; a "PCI DSS Compliant
+      badge with a green check mark" (the badge image's own alt text) further down.
+    claims: [soc2, gdpr, pci-dss]
+
+  - id: trust-center
+    url: https://security.jasper.ai/
+    audience: assurance
+    checked: "2026-08-31"
+    quote: >
+      Compliance panel lists SOC 2, ISO 27001:2022, CCPA, GDPR. Document catalog includes
+      "Jasper AI - SOC2 Type2.pdf". Migration notice dated August 14, 2026.
+    claims: [soc2, "iso27001:2022", ccpa, gdpr]

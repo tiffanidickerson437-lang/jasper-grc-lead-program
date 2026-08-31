@@ -1,0 +1,72 @@
+# Every checker, attacked — on every push and every pull request.
+#
+# No path filter. A change anywhere in this repository runs the whole suite, because
+# the observations and the validators are coupled: editing an inventory can invalidate
+# a checker's assumptions, and editing a checker can silently start accepting a bad
+# observation.
+#
+# NO STEP MAY SWALLOW A FAILURE. No `|| true`, no `continue-on-error`. A green check
+# that cannot go red is decoration, and a compliance repository whose CI is decoration
+# is worse than one with no CI at all — it manufactures unearned confidence.
+#
+# This is the check to gate `main` on in branch protection.
+
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+
+      - name: Install
+        run: pip install -r requirements.txt
+
+      # The validators run FIRST. If an input file is invalid, the tests that assert
+      # "the committed data is valid" would fail anyway — but this ordering makes the
+      # actual reason visible in the log instead of buried in a test name.
+      - name: Validate the claims inventory
+        run: python3 05-stakeholder-management/public-claims-consistency/check_claims.py --check
+
+      - name: Validate the subprocessor observations
+        run: python3 05-stakeholder-management/public-claims-consistency/subprocessor_consistency.py --check
+
+      - name: Validate the regulatory dates
+        run: python3 04-evidence-and-audit/data/audit_clock.py --check
+
+      - name: Attack the claims checker (17 tests)
+        run: python3 05-stakeholder-management/public-claims-consistency/test_check_claims.py
+
+      - name: Attack the subprocessor checker (11 tests)
+        run: python3 05-stakeholder-management/public-claims-consistency/test_subprocessor_consistency.py
+
+      - name: Attack the audit clock (14 tests)
+        run: python3 04-evidence-and-audit/data/test_audit_clock.py
+
+      # Every rendered artifact must be reproducible from its source. If a rendered
+      # report differs from what is committed, the committed one is stale and the repo
+      # is asserting findings it can no longer produce.
+      - name: Rendered reports are not stale
+        run: |
+          python3 05-stakeholder-management/public-claims-consistency/check_claims.py --render
+          python3 04-evidence-and-audit/data/audit_clock.py --render
+          if ! git diff --exit-code -- 05-stakeholder-management/public-claims-consistency/claims-findings.md 04-evidence-and-audit/frameworks/audit-calendar.md; then
+            echo "::error::A rendered report is stale. Re-run the tools and commit the output."
+            exit 1
+          fi

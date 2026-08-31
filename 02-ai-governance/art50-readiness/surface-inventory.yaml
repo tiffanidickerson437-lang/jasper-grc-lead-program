@@ -1,0 +1,70 @@
+# surface-inventory.yaml — Jasper's generative surfaces, seeded from public product pages.
+#
+# One row per surface that emits synthetic content. Marking duty follows the OUTPUT and
+# its delivery path, so the columns that matter are modality and how the output leaves.
+# Fields that require internal knowledge are left null with a reason — a guessed value
+# here would flow straight into a compliance determination, which is exactly where
+# invented data does the most damage.
+#
+# Public product taxonomy checked 2026-08-31 (jasper.ai navigation and product pages).
+# Whether each surface reaches the EU market, and through which entity, is internal —
+# that column is the first thing the real assessment fills in.
+
+schema_version: 1
+assessment: eu-ai-act-art50
+seeded_from: public-product-pages-2026-08-31
+
+surfaces:
+  - id: agents-library
+    label: "Agents (Optimization, Research, Translation, GEO Agent)"
+    modality: [text]
+    delivery: [app]
+    eu_market_reach: null      # internal — first column the assessment fills in
+    notes: "Agent outputs may also land in connected customer systems via integrations."
+
+  - id: canvas
+    label: "Canvas"
+    modality: [text]
+    delivery: [app]
+    eu_market_reach: null
+
+  - id: ai-studio
+    label: "AI Studio"
+    modality: [text]
+    delivery: [app]
+    eu_market_reach: null
+
+  - id: grid
+    label: "Jasper Grid"
+    modality: [text]
+    delivery: [app]
+    eu_market_reach: null
+    notes: "Bulk generation — volume makes unmarked output a scale problem, not an edge case."
+
+  - id: image-pipelines
+    label: "Image Pipelines / image generation (Clipdrop lineage)"
+    modality: [image]
+    delivery: [app, api]
+    eu_market_reach: null
+    notes: "C2PA-class provenance is the Commission's expectation for media; the French entity makes the EU nexus hard to argue away."
+
+  - id: chat
+    label: "Jasper Chat"
+    modality: [text]
+    delivery: [app]
+    eu_market_reach: null
+    notes: "Art. 50(1) AI-interaction disclosure surface as well as an output surface."
+
+  - id: api
+    label: "Public APIs"
+    modality: [text, image]
+    delivery: [api]
+    eu_market_reach: null
+    notes: "Marking must survive the delivery path — a watermark the API strips is not a control."
+
+  - id: mcp-server
+    label: "Jasper MCP server"
+    modality: [text]
+    delivery: [api]
+    eu_market_reach: null
+    notes: "Outputs land inside other tools' contexts; disclosure and marking both need a pass-through design."

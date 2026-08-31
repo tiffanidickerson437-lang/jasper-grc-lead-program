@@ -91,6 +91,14 @@ class Validation(unittest.TestCase):
         self._reject(lambda d: d["surfaces"][0].update(checked="yesterday"),
                      "non-ISO dates must be rejected")
 
+    def test_non_https_url_rejected(self):
+        self._reject(lambda d: d["surfaces"][0].update(url="http://example.com/a"),
+                     "observations must cite TLS-served pages")
+
+    def test_non_slug_surface_id_rejected(self):
+        self._reject(lambda d: d["surfaces"][0].update(id="A B"),
+                     "ids are referenced in findings output")
+
     def test_missing_tier_rejected(self):
         self._reject(lambda d: d.pop("tier"),
                      "a comparison without a scope is unfalsifiable")

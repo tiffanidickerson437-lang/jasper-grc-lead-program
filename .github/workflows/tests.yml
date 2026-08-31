@@ -50,10 +50,10 @@ jobs:
       - name: Validate the regulatory dates
         run: python3 04-evidence-and-audit/data/audit_clock.py --check
 
-      - name: Attack the claims checker (17 tests)
+      - name: Attack the claims checker (19 tests)
         run: python3 05-stakeholder-management/public-claims-consistency/test_check_claims.py
 
-      - name: Attack the subprocessor checker (11 tests)
+      - name: Attack the subprocessor checker (13 tests)
         run: python3 05-stakeholder-management/public-claims-consistency/test_subprocessor_consistency.py
 
       - name: Attack the audit clock (14 tests)

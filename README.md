@@ -34,7 +34,7 @@ Public claims consistency — 3 surfaces compared
 6 finding(s). Each routes to the claim owner — nothing here edits a page.
 ```
 
-Then attack the checkers themselves — 42 tests across three suites. Every checker
+Then attack the checkers themselves — 46 tests across three suites. Every checker
 carries a **control test** (clean input must produce zero findings) and a **mutation
 guard** (gut a comparator to always-pass and its own suite turns red). Same inputs,
 same output, every run. No model in the pass/fail path.

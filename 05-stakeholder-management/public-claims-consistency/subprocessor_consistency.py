@@ -25,6 +25,7 @@ Exit codes: 0 clean/reported · 1 invalid data · 2 findings under --strict.
 import argparse
 import datetime as _dt
 import os
+import re
 import sys
 
 import yaml
@@ -58,6 +59,10 @@ def validate(data):
         for field in ("id", "url", "checked", "note", "providers"):
             if not s.get(field):
                 raise DataError("surface %r: %s missing" % (s.get("id", "?"), field))
+        if not re.fullmatch(r"[a-z0-9-]+", str(s["id"])):
+            raise DataError("surface id %r must be a lowercase slug" % s["id"])
+        if not str(s["url"]).startswith("https://"):
+            raise DataError("surface %r: url must be https://" % s["id"])
         if s["id"] in ids:
             raise DataError("duplicate surface id %r" % s["id"])
         ids.add(s["id"])

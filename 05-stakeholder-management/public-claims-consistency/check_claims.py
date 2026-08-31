@@ -29,6 +29,7 @@ No network call, no API key, no model in any code path.
 import argparse
 import datetime as _dt
 import os
+import re
 import sys
 
 import yaml
@@ -85,6 +86,14 @@ def validate_inventory(data):
             if not s.get(field):
                 raise InventoryError("surface %r: %s missing"
                                      % (s.get("id", "?"), field))
+        if not re.fullmatch(r"[a-z0-9-]+", str(s["id"])):
+            raise InventoryError("surface id %r must be a lowercase slug — ids land "
+                                 "verbatim in rendered markdown" % s["id"])
+        if not str(s["url"]).startswith("https://"):
+            raise InventoryError("surface %r: url must be https:// — an observation "
+                                 "of a non-TLS page is not the observation this "
+                                 "inventory claims, and the url lands in a rendered "
+                                 "markdown link" % s["id"])
         if s["id"] in seen_ids:
             raise InventoryError("duplicate surface id %r" % s["id"])
         seen_ids.add(s["id"])

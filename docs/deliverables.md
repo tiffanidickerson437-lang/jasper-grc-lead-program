@@ -6,8 +6,8 @@ where it claims to run, and traceable to the [surface map](../00-governance/publ
 | Deliverable | Type | Where |
 |---|---|---|
 | Jasper described as one config, every value provenance-marked | data | [`generated/companies/jasper/jasper.config.yaml`](../generated/companies/jasper/jasper.config.yaml) |
-| Public-claims consistency checker (F1) + 17-test suite + rendered findings | instrument | [`05-stakeholder-management/public-claims-consistency/`](../05-stakeholder-management/public-claims-consistency/) |
-| Subprocessor consistency checker (F3) + 11-test suite | instrument | same directory |
+| Public-claims consistency checker (F1) + 19-test suite + rendered findings | instrument | [`05-stakeholder-management/public-claims-consistency/`](../05-stakeholder-management/public-claims-consistency/) |
+| Subprocessor consistency checker (F3) + 13-test suite | instrument | same directory |
 | The audit clock: dates as validated data, day-count arithmetic, rendered calendar + 14-test suite | instrument | [`04-evidence-and-audit/`](../04-evidence-and-audit/) |
 | Article 50 readiness assessment, scoped, with seeded surface inventory | assessment design | [`02-ai-governance/art50-readiness/`](../02-ai-governance/art50-readiness/) |
 | LLM provider vendor tier | lane design | [`01-tprm/llm-provider-tier.md`](../01-tprm/llm-provider-tier.md) |

@@ -128,6 +128,15 @@ class Validation(unittest.TestCase):
             i["surfaces"].append(copy.deepcopy(i["surfaces"][0]))
         self._reject(dup, "duplicate surface ids silently merge observations")
 
+    def test_non_https_url_rejected(self):
+        self._reject(lambda i: i["surfaces"][0].update(url="http://example.com/a"),
+                     "a checker whose observations ride plaintext HTTP invites "
+                     "tampered observations; and the url lands in rendered markdown")
+
+    def test_non_slug_surface_id_rejected(self):
+        self._reject(lambda i: i["surfaces"][0].update(id="a|b](x"),
+                     "ids land verbatim in rendered markdown tables")
+
     def test_bad_kind_rejected(self):
         self._reject(lambda i: i["claims"].update(
             {"x": {"kind": "vibe", "label": "X"}}),

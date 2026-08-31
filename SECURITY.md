@@ -55,4 +55,11 @@ Beyond the usual, these are specifically in scope because of what this repositor
 - Secret scanning with push protection enabled
 - Merge surface reduced to squash-only with automatic branch deletion; wiki and
   projects disabled
+- `main` protected: the `test` status check is required and strict, force-push and
+  deletion are blocked, conversation resolution is required, and the rules apply to
+  administrators too — which means every change to `main`, including the maintainer's
+  own, arrives by pull request with green CI
+- CodeQL code scanning via GitHub's default setup
+- Data files consumed by the checkers are validated fail-closed before comparison:
+  schema version, ISO dates, https-only source and surface URLs, slug-constrained ids
 - One runtime dependency, pinned
